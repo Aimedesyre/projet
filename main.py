@@ -1,10 +1,10 @@
 import sqlite3
 
-# Connexion à la base de données (création si elle n'existe pas)
+
 conn = sqlite3.connect("phones.db")
 cursor = conn.cursor()
 
-# Créer une table pour les téléphones
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS phones (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS phones (
 ''')
 print("Table 'phones' créée avec succès.")
 
-# Insérer quelques données d'exemple
+
 phones_data = [
     ("Apple", "iPhone 14", 999.99),
     ("Samsung", "Galaxy S22", 899.99),
@@ -25,7 +25,7 @@ phones_data = [
 cursor.executemany('INSERT INTO phones (brand, model, price) VALUES (?, ?, ?)', phones_data)
 print("Données insérées avec succès.")
 
-# Afficher les données de la table
+
 cursor.execute('SELECT * FROM phones')
 rows = cursor.fetchall()
 
@@ -33,16 +33,16 @@ print("\nListe des téléphones :")
 for row in rows:
     print(row)
 
-# Sauvegarder et fermer la connexion
+
 conn.commit()
 conn.close()
-# Fonction pour ajouter un téléphone
+
 def add_phone(brand, model, price):
     cursor.execute("INSERT INTO phones (brand, model, price) VALUES (?, ?, ?)", (brand, model, price))
     conn.commit()
     print(f"{brand} {model} ajouté avec succès !")
 
-# Fonction pour rechercher un téléphone
+
 def search_phone(brand=None, model=None):
     query = "SELECT * FROM phones WHERE"
     params = []
@@ -66,7 +66,7 @@ def search_phone(brand=None, model=None):
     else:
         print("Aucun téléphone trouvé.")
 
-# Fonction pour exporter les données vers un fichier CSV
+
 def export_to_csv():
     cursor.execute('SELECT * FROM phones')
     phones = cursor.fetchall()
@@ -77,7 +77,7 @@ def export_to_csv():
         csv_writer.writerows(phones)
 
     print("Les données ont été exportées dans 'phones_export.csv'.")
-# Fonction pour afficher le menu
+
 def menu():
     while True:
         print("\n1. Ajouter un téléphone")
@@ -102,7 +102,7 @@ def menu():
         else:
             print("Option invalide. Essayez à nouveau.")
 
-# Appel de la fonction menu pour démarrer l'interface
+
 menu()
 def get_valid_price():
     while True:
@@ -120,7 +120,7 @@ def search_phone(brand=None, model=None):
 
     if brand:
         query += " brand LIKE ?"
-        params.append(f"%{brand}%")  # Recherche insensible à la casse
+        params.append(f"%{brand}%")  
     if model:
         if params:
             query += " AND"
